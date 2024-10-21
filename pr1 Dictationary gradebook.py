@@ -14,19 +14,31 @@ print(f"{'Grade Book':>{15}}")
 print('-'*20,'\n')
 
 print('Enter 1-5:\n\n1. Add a student and grade.\n\n2. View grade book.\n\n3. Update a student\'s grade.\n\n4. Delete a student.\n\n5. Exit.')
-
+    
 with open('new.txt','r') as f:
     for line in f:
         if line.strip():
             key = line[:15].strip()
             value = line[15:].strip()
             student[key] = value
+
 def file():
+    
+    with open('new.txt','w') as f:
+            f.write('')
     for i,j in student.items():
-        with open('new.txt','w') as f:
+        with open('new.txt','a') as f:
             f.write(f'\n{i:<{15}}{j:<{15}}')
-
-
+  
+            
+def app():
+    with open('new.txt','r') as f:
+        m = f.readlines()
+            
+    for i,j in student.items():
+        if i and j not in m:
+            with open('new.txt','a') as f:
+                f.write(f'\n{i:<{15}}{j:<{15}}')
 def add():
     a = input('\nEnter the student\'s name: ').upper()
     b = input('\nEnter the student\'s grade: ').upper()
@@ -42,7 +54,7 @@ def view():
 
 def update():
     a = input('\nEnter the name of the student: ').upper()
-    if a in student.keys() or check(a):
+    if a in student.keys():
         b = input('\nEnter the student\'s grade: ').upper()
         student.update({a:b})
         file()
@@ -54,7 +66,8 @@ def delete():
     a = input('\nEnter the name of the student: ').upper()
     if a in student.keys():
         del student[a]
-        file()    
+        
+        file()
         print('\nThe student is successfully deleted from grade book')
     else:
         print('\nSorry, student name not found in the grade book')
