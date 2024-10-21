@@ -6,51 +6,95 @@ print('-'*30)
 
 import random
 
-list1 = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122]
+characters = [i for i in range(65,122) if not (91 <= i <= 96)]
 
-list2 = [33, 35, 36, 37, 38, 42, 43, 47,60, 61, 62, 63, 64, 92, 94, 95, 126]
+numbers = [i for i in range(48,58)]
 
-while True:
-    x = input('\nDo you want to generate a password? (type yes or no) :- ').lower()
+symbols = [i for i in range(33,127) if not (48 <= i <= 57 or 65 <= i <= 90 or 97 <= i <= 122)]
+
+def operation(y,p,q):
+    
+    n,z,e,g,t,s,d,j = 0,0,0,0,0,0,0,0
+    
+    if p == 'yes':
+        n = 1
+            
+    if q == 'yes':
+        z = 1  
+                
+    if n == 1 and z == 1:
+        e = int(y*0.3)
+        g = e
+        j = e
+        t = y - (2*e)
+    
+    elif n == 1 or z == 1:
+        e = int(y*0.4)
+        t = y - e
+        
+        if n == 1:
+            g = e
+        
+        else:
+            j = e    
+    
+    return t,g,j          
+    
+def shuffling(t,g,j):
+    m = random.choices(characters,k = t)
+
+    m += random.choices(numbers,k = g)
+            
+    m += random.choices(symbols,k = j)
+            
+    random.shuffle(m)
+    
+    return m
+    
+def check(x):
+    
     if x not in ['yes','no']:
         print('\nOops invalid input. Please enter yes or no')
-        continue
-    else:
-        break
+        return True
+    
             
-def another():
-    while True:
-        y = input('\nDo you want to generate another password? (type yes or no) :- ').lower()
-        if y not in ['yes', 'no']:
-            print('\nOops invalid input. Please enter yes or no')
-            continue
-        else:
-            return y
-            break
+a = '\nDo you want to generate a password? (type yes or no) :- '
 
 while True:
+    x = input(a).lower()
+    
+    if check(x):
+        continue
+        
+    else:
 
-    if x == 'yes':
-        a = random.choices(list1,k = 5)
-
-        b = random.choices(list2,k = 3)
-
-        m = a + b
-        random.shuffle(m)
-        n = ''
-        for i in m:
-            n += chr(i)
-
-        print(f'\nRandom password is :- {n}')
-
-        y = another()
+        if x == 'yes':
+            
+            try:
+                y = int(input('\nHow long do you want the password? :- '))
+            except ValueError:
+                print('\nOops invalid input. Please enter a number.')  
+                continue 
+            
+            p = input('\nDo you want numbers in the password? :- ').lower()
+            if check(p):
+                continue
                 
-        if y == 'yes':
-            continue
+            q = input('\nDo you want symbols in the password? :- ').lower()
+            if check(q):
+                continue
+                
+            t,g,j = operation(y,p,q)
+            
+            m = shuffling(t,g,j)
+            
+            print('\nRandom password is :- ',end = '')
+            
+            for i in m:
+                print(chr(i), end = '')
+
+            a = '\n\nDo you want to generate another password? (type yes or no) :- '
 
         else:
-            print("\nThank you for using this program.")
+            print("\nThank you for using this program")
             break
-    else:
-        print("\nThank you for using this program")
-        break
