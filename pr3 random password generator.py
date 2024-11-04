@@ -38,11 +38,14 @@ def operation(y,p,q):
         else:
             j = e    
     
-    return t,g,j          
+    if n == 0 and z == 0:
+        t = y
+        
+    return t,g,j
     
 def shuffling(t,g,j):
     m = random.choices(characters,k = t)
-
+    print(t)
     m += random.choices(numbers,k = g)
             
     m += random.choices(symbols,k = j)
