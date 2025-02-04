@@ -1,3 +1,4 @@
+
 import time
 import os
 
@@ -33,8 +34,6 @@ def timing():
         time.sleep(1)
         os.system('cls')
 
-        c -= 1
-
         if b == 0 and d != 0:
 
             d -= 1
@@ -44,6 +43,8 @@ def timing():
 
             b -= 1
             c = 59
+
+        c -= 1
 
     else:
 
