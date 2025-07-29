@@ -2,9 +2,11 @@ import json
 
 import os
 
-contacts = {
+from typing import TextIO
 
-}
+print(f'{'Phone Book':>{15}}')
+
+print(20*'=')
 
 FILE_NAME = 'contacts.json'
 
@@ -20,15 +22,11 @@ def load_contact():
 
         return {}
 
-def save(contacts):
+def save(contacts_data):
 
-    with open(FILE_NAME, 'w') as f:
+    with open(FILE_NAME, 'w') as f: # type: TextIO
 
-        json.dump(contacts, f, indent = 4)
-
-print(f'{'Phone Book':>{15}}')
-
-print(20*'=')
+        json.dump(contacts_data, f, indent = 4)
 
 contacts = load_contact()
 
@@ -44,19 +42,21 @@ def menu():
 
     print('3. Search contacts')
 
-    print('4. Delete a contact.')
+    print('4. Update a contact.')
 
-    print('Exit the program')
+    print('5. Delete a contact')
+
+    print('6. Exit the program.')
 
 def add ():
 
     #contacts = load_contact()
 
-    name = input('Enter the contacts name :- ').title()
+    name = input('\n🙂Enter the contacts name :- ').title()
 
-    phone = input('Enter the phone number :- ')
+    phone = input('\n☎️Enter the phone number :- ')
 
-    email = input('Enter the email :- ').lower()
+    email = input('\n📧Enter the email :- ').lower()
 
     contacts[name] = {
 
@@ -68,7 +68,7 @@ def add ():
 
     save(contacts)
 
-    print('Contact has been added successfully. ✅')
+    print('\nContact has been added successfully. ✅')
 
 def view():
 
@@ -92,24 +92,56 @@ def view():
 
 def search ():
 
-    name = input('Enter tha name of the contact :- ').title()
+    name = input('\n🙂Enter tha name of the contact :- ').title()
 
     if name in contacts:
 
         info = contacts[name]
 
-        print(f'\nFound the contact for {name}')
+        print(f'\n🔍Found the contact for {name}')
 
-        print(f'Phone : {info['phone']}')
+        print(f'\n☎️Phone : {info['phone']}')
 
-        print(f'Phone : {info['email']}')
+        print(f'\n📧Email : {info['email']}')
     else:
 
         print('\nThe contact can\'t be found. ❌')
 
-def delete ():
+def update():
 
-    name = input('Enter the name of the contact to delete :- ')
+    name = input('\n🙂Enter the name of the contact to update :- ').title()
+
+    if name in contacts:
+
+        updating = input('\n🪪Enter the field(phone, email) to update :- ').lower()
+
+        updating_info = input('\n🗃️Enter the info to update :- ').lower()
+
+        update2(name, updating, updating_info)
+
+    else:
+
+        print('\nThe contact can\'t be found. ❌')
+
+
+
+def update2(name, updating, updating_info):
+
+    if updating in ('phone', 'email'):
+
+        contacts[name].update({updating: updating_info})
+
+        save(contacts)
+
+        print('\nThe contact has been updated successfully. ✅')
+
+    else:
+
+        print('\nThe field doesn\'t exist. ❌ ')
+
+
+def delete():
+    name = input('\n🙂Enter the name of the contact to delete :- ')
 
     if name in contacts:
 
@@ -126,11 +158,11 @@ while True:
     menu()
 
     try:
-        operation = int(input('Enter the operation you want to perform :- '))
+        operation = int(input('\n😀Enter the operation you want to perform :- '))
 
     except ValueError:
 
-        print('Oops invalid input please enter a number between 1-2')
+        print(f'\nOops invalid input please enter a number between 1-6. \n{20*'🙄'}')
         continue
 
     if operation == 1:
@@ -147,9 +179,18 @@ while True:
 
     elif operation == 4:
 
-        delete()
+        update()
 
     elif operation == 5:
 
-        print('Thank you for using this program. ❤️')
+        delete()
+
+    elif operation == 6:
+
+        print('\nThank you for using this program. ❤️')
         break
+
+    else:
+
+        print(f'\nOops invalid input please enter a number between 1-6. \n{20 * '🙄'}')
+        continue
